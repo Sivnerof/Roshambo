@@ -1,15 +1,13 @@
+/* Global Variables */
 let computerScore = 0;
 let playerScore = 0;
 
-const playerSelection = document.querySelectorAll('button.rps-buttons');
-
-playerSelection.forEach(element => {
-    element.addEventListener('click', () => {
-        playRound(computerPlay(), element.id);
-    });
-})
+/* Query Selectors */
+const playerChoice = document.querySelectorAll('button.rps-buttons');
+const gameScores = document.querySelector('#announcement');
 
 
+/* Functions */
 function computerPlay(){
     const availableChoices = ["rock", "paper", "scissors"];
     const computerChoice = availableChoices[Math.floor(Math.random() * availableChoices.length)];
@@ -18,20 +16,26 @@ function computerPlay(){
 
 
 function playRound(computerSelection, playerSelection){
-    const playerChoice = playerSelection.toLowerCase();
-    if (playerChoice === computerSelection){
-        console.log(`${playerChoice} vs ${computerSelection}: Tie Game!`);
-    } else if (playerChoice === "rock" && computerSelection === "scissors" ||
-            playerChoice === "paper" && computerSelection === "rock" || 
-            playerChoice === "scissors" && computerSelection === "paper"){
-        console.log(`${playerChoice} beats ${computerSelection}, Player Wins!!!`);
+    if (playerSelection === computerSelection){
+        console.log(`${playerSelection} vs ${computerSelection}: Tie Game!`);
+    } else if (playerSelection === "rock" && computerSelection === "scissors" ||
+            playerSelection === "paper" && computerSelection === "rock" || 
+            playerSelection === "scissors" && computerSelection === "paper"){
+        console.log(`${playerSelection} beats ${computerSelection}, Player Wins!!!`);
         playerScore++;
     } else {
-        console.log(`${computerSelection} beats ${playerChoice}, Computer Wins!!!`);
+        console.log(`${computerSelection} beats ${playerSelection}, Computer Wins!!!`);
         computerScore++;
     }
 }
 
+
+/* Event listeners */
+playerChoice.forEach(element => {
+    element.addEventListener('click', () => {
+        playRound(computerPlay(), element.id);
+    });
+})
 
 /*
     Add a div for displaying results and change all of your console.logs into DOM methods.
