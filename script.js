@@ -1,6 +1,15 @@
 let computerScore = 0;
 let playerScore = 0;
 
+const playerSelection = document.querySelectorAll('button.rps-buttons');
+
+playerSelection.forEach(element => {
+    element.addEventListener('click', () => {
+        playRound(computerPlay(), element.id);
+    });
+})
+
+
 function computerPlay(){
     const availableChoices = ["rock", "paper", "scissors"];
     const computerChoice = availableChoices[Math.floor(Math.random() * availableChoices.length)];
@@ -10,7 +19,6 @@ function computerPlay(){
 
 function playRound(computerSelection, playerSelection){
     const playerChoice = playerSelection.toLowerCase();
-    console.log(computerSelection, playerSelection)
     if (playerChoice === computerSelection){
         console.log(`${playerChoice} vs ${computerSelection}: Tie Game!`);
     } else if (playerChoice === "rock" && computerSelection === "scissors" ||
@@ -24,39 +32,11 @@ function playRound(computerSelection, playerSelection){
     }
 }
 
-// Remove 5 round logic
-function game(){
-    for(let i = 0; i < 5; i++){
-        playRound(computerPlay(), prompt("Rock, Paper, or Scissors?", ""));
-    }
-    if (playerScore > computerScore){
-        console.log(`FINAL SCORE: Player Wins! ${playerScore} vs ${computerScore}`);
-    } else if (computerScoreScore > playerScore) {
-        console.log(`FINAL SCORE: Computer Wins! ${computerScore} vs ${playerScore}`);
-    } else {
-        console.log(`Tie Game`);
-    }
-}
-
-game();
 
 /*
-    Remove the logic that plays exactly five rounds.
-    
-    Create three buttons, one for each selection. 
-    Add an event listener to the buttons that call your playRound function with 
-    the correct playerSelection every time a button is clicked. 
-    (you can keep the console.logs for this step)
-    
     Add a div for displaying results and change all of your console.logs into DOM methods.
     
     Display the running score, and announce a winner of the game once one player reaches 5 points.
-    
-    You will likely have to refactor (rework/rewrite) your original code to make it work for this. 
-    That’s OK! Reworking old code is an important part of a programmer’s life.
-    
-    Once you’re all done with your UI and made sure everything’s satisfactory, 
-    commit your changes to the rps-ui branch.
 
 Now let’s take a look at how we can merge the changes from our rps-ui branch back to our main branch.
 
@@ -77,6 +57,4 @@ Now let’s take a look at how we can merge the changes from our rps-ui branch b
     Delete the branch from our local repo with git branch -d rps-ui and also 
     delete it from the remote repo on Github with 
     git push --delete origin rps-ui. Congrats, we’re all done with our cleanup!
-
-
 */
