@@ -1,10 +1,15 @@
 /* Global Variables */
 let computerScore = 0;
 let playerScore = 0;
+let round = 0;
 
 /* Query Selectors */
 const playerChoice = document.querySelectorAll('button.rps-buttons');
-const gameScores = document.querySelector('#announcement');
+const playerScoreSection = document.querySelector('#player-score');
+const computerScoreSection = document.querySelector('#computer-score');
+const roundWinnerSection = document.querySelector('#winner');
+const roundNumberSection = document.querySelector('#round-number');
+const announceWinnerSection = document.querySelector('#announce-winner');
 
 
 /* Functions */
@@ -14,19 +19,47 @@ function computerPlay(){
     return computerChoice;
 }
 
+function endGame(){
+    if (playerScore > computerScore){
+        announceWinnerSection.textContent = `Player Wins!!!`;
+    } else if (computerScore > playerScore){
+        announceWinnerSection.textContent = `Computer Wins...`;
+    } else {
+        announceWinnerSection.textContent = `Tie Game`;
+    }
+    round = 0;
+    computerScore = 0;
+    playerScore = 0;
+}
+
+function updateRound(){
+    if (round == 5){
+        endGame();
+    }
+    round++;
+    roundNumberSection.textContent = `Round ${round}`;
+}
+
+function updateScore(){
+    playerScoreSection.textContent = playerScore;
+    computerScoreSection.textContent = computerScore;
+}
 
 function playRound(computerSelection, playerSelection){
+    updateRound();
     if (playerSelection === computerSelection){
-        console.log(`${playerSelection} vs ${computerSelection}: Tie Game!`);
+        roundWinnerSection.textContent = `${playerSelection} vs ${computerSelection}: Tie Game`;
+        return;
     } else if (playerSelection === "rock" && computerSelection === "scissors" ||
             playerSelection === "paper" && computerSelection === "rock" || 
             playerSelection === "scissors" && computerSelection === "paper"){
-        console.log(`${playerSelection} beats ${computerSelection}, Player Wins!!!`);
+        roundWinnerSection.textContent = `${playerSelection} vs ${computerSelection}: Player Wins`;
         playerScore++;
     } else {
-        console.log(`${computerSelection} beats ${playerSelection}, Computer Wins!!!`);
+        roundWinnerSection.textContent = `${playerSelection} vs ${computerSelection}: Computer Wins`;
         computerScore++;
     }
+    updateScore();
 }
 
 
@@ -38,8 +71,6 @@ playerChoice.forEach(element => {
 })
 
 /*
-    Add a div for displaying results and change all of your console.logs into DOM methods.
-    
     Display the running score, and announce a winner of the game once one player reaches 5 points.
 
 Now let’s take a look at how we can merge the changes from our rps-ui branch back to our main branch.
